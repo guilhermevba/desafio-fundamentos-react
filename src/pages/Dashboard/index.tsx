@@ -8,7 +8,8 @@ import api from '../../services/api';
 
 import Header from '../../components/Header';
 
-import { formatValue, formatDate } from '../../utils/formatValue';
+import formatValue from '../../utils/formatValue';
+import formatDate from '../../utils/formatDate';
 
 import { Container, CardContainer, Card, TableContainer } from './styles';
 
@@ -89,13 +90,11 @@ const Dashboard: React.FC = () => {
             </thead>
             <tbody>
               {transactions.map(transaction => (
-                <tr>
+                <tr key={transaction.id}>
                   <td className="title">{transaction.title}</td>
                   <td className={transaction.type}>
-                    {formatValue(
-                      (transaction.type === 'income' ? 1 : -1) *
-                        Number(transaction.value),
-                    )}
+                    {transaction.type === 'outcome' && '- '}
+                    {formatValue(Number(transaction.value))}
                   </td>
                   <td>{transaction.category.title}</td>
                   <td>{formatDate(new Date(transaction.created_at))}</td>
